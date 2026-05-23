@@ -1,4 +1,5 @@
 
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,16 +9,27 @@
     body {
       font-family: Arial;
       text-align: center;
-      margin-top: 50px;
+      margin-top: 60px;
+      background: #f2f2f2;
+    }
+
+    .card {
+      background: white;
+      display: inline-block;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #ccc;
     }
 
     input {
       padding: 10px;
+      width: 200px;
     }
 
     button {
       padding: 10px;
       cursor: pointer;
+      margin-left: 5px;
     }
 
     #result {
@@ -28,36 +40,51 @@
 
 <body>
 
-  <h1>Weather App 🌤️</h1>
+  <div class="card">
+    <h1>Weather App 🌤️</h1>
 
-  <input id="city" placeholder="Enter city">
-  <button onclick="getWeather()">Search</button>
+    <input id="city" placeholder="Enter city">
+    <button onclick="getWeather()">Search</button>
 
-  <div id="result"></div>
+    <div id="result"></div>
+  </div>
 
   <script>
     async function getWeather() {
       const city = document.getElementById("city").value;
 
-      const apiKey = "YOUR_API_KEY";
-      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+      if (!city) {
+        document.getElementById("result").innerHTML =
+          "❌ Please enter a city";
+        return;
+      }
+
+      const apiKey = http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=2cdc0086faa725fadc53ee847644c5cc; // 🔴 replace this
+      const url =
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
       try {
         const res = await fetch(url);
         const data = await res.json();
+
+        console.log(data);
+
+        if (!res.ok) {
+          throw new Error(data.message);
+        }
 
         document.getElementById("result").innerHTML = `
           <h2>${data.name}</h2>
           <p>${data.weather[0].description}</p>
           <h3>${data.main.temp}°C</h3>
         `;
+
       } catch (err) {
         document.getElementById("result").innerHTML =
-          "<p>Error getting weather</p>";
+          "❌ Error: " + err.message;
       }
     }
   </script>
 
 </body>
 </html>
-    
