@@ -1,29 +1,63 @@
 
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">		
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>web site</title>
-		 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-	
+<head>
+  <title>Weather App</title>
 
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      margin-top: 50px;
+    }
 
+    input {
+      padding: 10px;
+    }
+
+    button {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 20px;
+    }
+  </style>
+</head>
 
 <body>
 
-<h1> website</h1>
+  <h1>Weather App 🌤️</h1>
 
+  <input id="city" placeholder="Enter city">
+  <button onclick="getWeather()">Search</button>
 
+  <div id="result"></div>
 
+  <script>
+    async function getWeather() {
+      const city = document.getElementById("city").value;
 
+      const apiKey = "YOUR_API_KEY";
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
 
+        document.getElementById("result").innerHTML = `
+          <h2>${data.name}</h2>
+          <p>${data.weather[0].description}</p>
+          <h3>${data.main.temp}°C</h3>
+        `;
+      } catch (err) {
+        document.getElementById("result").innerHTML =
+          "<p>Error getting weather</p>";
+      }
+    }
+  </script>
 
-
-
-		
-	</body>
+</body>
 </html>
-
     
